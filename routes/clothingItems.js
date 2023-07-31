@@ -14,12 +14,13 @@ router.post("/", createItem);
 router.get("/", getItems);
 
 //Update
-router.put("/:itemid", updateItems);
+router.put("/:itemId", updateItems);
 
 //DELETE
-router.delete("/:itemid", deleteItems);
+router.delete("/:itemId", deleteItems);
 
-router.put("/:itemid/likes", likeItem);
-router.delete("/:itemid/likes", dislikeItem);
+router.put("/:itemId/likes", likeItem);
+
+router.delete("/:itemId/likes", dislikeItem);
 
 module.exports = router;

@@ -15,12 +15,12 @@ router.post("/", createProfile);
 router.get("/", getUsers);
 
 //UPDATE
-router.put("/:userid", updateProfile);
+router.put("/:userId", updateProfile);
 
 //DELETE
-router.delete("/:userid", deleteProfile);
+router.delete("/:userId", deleteProfile);
 
 //GET USER
-router.get("/users/:userid", getCurrentUser);
+router.get("/:userId", getCurrentUser);
 
 module.exports = router;

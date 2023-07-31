@@ -1,4 +1,3 @@
-const user = require("../models/user");
 const UserProfile = require("../models/user");
 const handleError = require("../utils/config");
 
@@ -16,12 +15,10 @@ const getUsers = (req, res) => {
 
 const getCurrentUser = (req, res) => {
   const { userId } = req.params;
-  console.log("kamal", userId);
-
   UserProfile.findById(userId)
     .orFail()
-    .then((user) => {
-      res.status(200).send({ data: user });
+    .then((userData) => {
+      res.status(200).send({ data: userData });
     })
     .catch((err) => {
       console.log(" error", err);
@@ -61,13 +58,16 @@ const updateProfile = (req, res) => {
 
 const deleteProfile = (req, res) => {
   const { userId } = req.params;
+  console.log(userId, "user ko ");
 
-  UserProfile.findByIdAndDelete(userId)
+  UserProfile.findByIdAndRemove(userId)
     .orFail()
     .then((userData) => {
       res.status(204).send({});
     })
     .catch((err) => {
+      console.log(req.params);
+      console.error("yai error ho", err);
       handleError(req, res, err);
     });
 };
