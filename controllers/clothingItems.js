@@ -22,26 +22,14 @@ const getItems = (req, res) => {
     });
 };
 
-const updateItems = (req, res) => {
-  const { itemId } = req.params;
-  const { imageUrl } = req.body;
-
-  ClothingItems.findByIdAndUpdate(itemId, { $set: { imageUrl } })
-    .orFail()
-    .then((item) => {
-      res.status(200).send({ data: item });
-    })
-    .catch((err) => {
-      handleError(req, res, err);
-    });
-};
-
 const deleteItems = (req, res) => {
   const { itemId } = req.params;
 
   ClothingItems.findByIdAndDelete(itemId)
     .orFail()
-    .then((item) => res.status(200).send({}))
+    .then((item) =>
+      res.status(200).send({ message: "Item successfully deleted" }),
+    )
     .catch((err) => {
       handleError(req, res, err);
     });
@@ -50,6 +38,6 @@ const deleteItems = (req, res) => {
 module.exports = {
   createItem,
   getItems,
-  updateItems,
+
   deleteItems,
 };

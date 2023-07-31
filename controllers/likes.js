@@ -4,9 +4,13 @@ const handleError = require("../utils/config");
 const likeItem = (req, res) => {
   const { itemId } = req.params;
 
-  ClothingItems.findByIdAndUpdate(itemId, {
-    $addToSet: { likes: req.user._id },
-  })
+  ClothingItems.findByIdAndUpdate(
+    itemId,
+    {
+      $addToSet: { likes: req.user._id },
+    },
+    { new: true },
+  )
     .orFail()
     .then((item) => {
       res.status(200).send({ data: item });

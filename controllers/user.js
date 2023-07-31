@@ -56,26 +56,10 @@ const updateProfile = (req, res) => {
     });
 };
 
-const deleteProfile = (req, res) => {
-  const { userId } = req.params;
-  console.log(userId, "user ko ");
-
-  UserProfile.findByIdAndRemove(userId)
-    .orFail()
-    .then((userData) => {
-      res.status(204).send({});
-    })
-    .catch((err) => {
-      console.log(req.params);
-      console.error("yai error ho", err);
-      handleError(req, res, err);
-    });
-};
-
 module.exports = {
   createProfile,
   getUsers,
   updateProfile,
-  deleteProfile,
+
   getCurrentUser,
 };

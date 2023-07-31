@@ -3,7 +3,6 @@ const {
   createProfile,
   updateProfile,
   getUsers,
-  deleteProfile,
   getCurrentUser,
 } = require("../controllers/user");
 
@@ -18,7 +17,6 @@ router.get("/", getUsers);
 router.put("/:userId", updateProfile);
 
 //DELETE
-router.delete("/:userId", deleteProfile);
 
 //GET USER
 router.get("/:userId", getCurrentUser);
