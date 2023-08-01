@@ -16,8 +16,6 @@ const likeItem = (req, res) => {
       res.status(200).send({ data: item });
     })
     .catch((err) => {
-      console.log("itemID for llike", req.params.itemId);
-      console.log("like ko lagi", req.user._id);
       handleError(req, res, err);
     });
 };
@@ -35,8 +33,6 @@ const dislikeItem = (req, res) => {
       res.status(200).send({ data: item });
     })
     .catch((err) => {
-      console.log("unlikelike ko lagi", req.user._id);
-
       handleError(req, res, err);
     });
 };

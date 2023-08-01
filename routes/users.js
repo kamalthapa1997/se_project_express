@@ -6,19 +6,19 @@ const {
   getCurrentUser,
 } = require("../controllers/user");
 
-//CRUD
-//CREATE
+// CRUD
+// CREATE
 router.post("/", createProfile);
 
-//READ
+// READ
 router.get("/", getUsers);
 
-//UPDATE
+// UPDATE
 router.put("/:userId", updateProfile);
 
-//DELETE
+// DELETE
 
-//GET USER
+// GET USER
 router.get("/:userId", getCurrentUser);
 
 module.exports = router;

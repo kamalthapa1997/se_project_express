@@ -7,8 +7,6 @@ const getUsers = (req, res) => {
       res.status(200).send({ data: userData });
     })
     .catch((err) => {
-      console.log(" error", err);
-
       handleError(req, res, err);
     });
 };
@@ -21,13 +19,11 @@ const getCurrentUser = (req, res) => {
       res.status(200).send({ data: userData });
     })
     .catch((err) => {
-      console.log(" error", err);
       handleError(req, res, err);
     });
 };
 
 const createProfile = (req, res) => {
-  console.log(req.body);
   const { name, avatar } = req.body;
 
   UserProfile.create({ name, avatar })
@@ -35,7 +31,6 @@ const createProfile = (req, res) => {
       res.send(data);
     })
     .catch((err) => {
-      console.log("this is error", err);
       handleError(req, res, err);
     });
 };
@@ -44,9 +39,7 @@ const updateProfile = (req, res) => {
   const { userId } = req.params;
   const { avatar } = req.body;
 
-  console.log(userId, avatar);
-
-  UserProfile.findByIdAndUpdate(userId, { $set: { avatar: avatar } })
+  UserProfile.findByIdAndUpdate(userId, { $set: { avatar } })
     .orFail()
     .then((userData) => {
       res.status(200).send({ data: userData });
