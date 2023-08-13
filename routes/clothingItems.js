@@ -10,10 +10,13 @@ const {
 } = require("../controllers/clothingItems");
 const { likeItem, dislikeItem } = require("../controllers/likes");
 
-router.post("/", authorize, createItem);
+console.log(1);
+console.log(authorize, createItem);
+// router.post("/", authorize, createItem);
+router.post("/", createItem);
 
 // READ
-router.get("/", getItems);
+router.get("/", getItems); // 2nd argument must be function
 
 // Update
 

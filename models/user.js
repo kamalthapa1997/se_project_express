@@ -20,9 +20,10 @@ const userProfile = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true,
     validate: {
-      validator: (e) => validator.isEmail(e),
+      validator(v) {
+        return validator.isEmail(v);
+      },
       message: "You must enter a valid Email",
     },
   },
@@ -30,6 +31,7 @@ const userProfile = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
+    minLength: 2,
   },
 });
 
