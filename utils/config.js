@@ -1,4 +1,5 @@
 const { ERROR_400, ERROR_404, ERROR_500 } = require("./errors");
+const JWT_SECRET = "ss236asd76sdsdc67ds7cdsc78acdsa7d";
 
 const handleError = (req, res, error) => {
   if (error.name === "CastError") {
@@ -13,4 +14,4 @@ const handleError = (req, res, error) => {
     });
   }
 };
-module.exports = handleError;
+module.exports = { handleError, JWT_SECRET };
