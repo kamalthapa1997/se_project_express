@@ -1,20 +1,19 @@
-const {
-  ERROR_400,
-  ERROR_404,
-  ERROR_500,
-  ERROR_401,
-  ERROR_409,
-} = require("./errors");
-const JWT_SECRET = "ss236asd76sdsdc67ds7cdsc78acdsa7d";
+const { ERROR_400, ERROR_404, ERROR_500, ERROR_409 } = require("./errors");
+
+const JWT_SECRET =
+  "61c28a838916286e63a31ff258f0f128e121ccb66d713285f2fabcc311b95d64";
 
 const handleError = (req, res, error) => {
-  if (error.name === "Error") {
-    res.status(ERROR_409).send({ message: "Passed invalid Email or Password" });
-  }
-  if (error.name === "CastError") {
-    res.status(ERROR_400).send({ message: "Passed invalid ID" });
-  } else if (error.name === "ValidationError") {
+  console.error("Handle ko error ", error.message);
+  if (
+    error.name === "ValidationError" ||
+    error.message === "Validation Error"
+  ) {
     res.status(ERROR_400).send({ message: "Passed invalid data" });
+  } else if (error.message === "Email already exist") {
+    res.status(ERROR_409).send({ message: error.message });
+  } else if (error.name === "CastError") {
+    res.status(ERROR_400).send({ message: "Passed invalid ID" });
   } else if (error.name === "DocumentNotFoundError") {
     res.status(ERROR_404).send({ message: "Data was not found" });
   } else {

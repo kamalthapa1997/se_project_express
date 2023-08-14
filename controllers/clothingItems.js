@@ -1,5 +1,5 @@
 const ClothingItems = require("../models/clothingItems");
-const handleError = require("../utils/config");
+const { handleError } = require("../utils/config");
 
 const createItem = (req, res) => {
   const { name, weather, imageUrl } = req.body;
@@ -20,16 +20,28 @@ const getItems = (req, res) => {
     })
     .catch((err) => {
       handleError(req, res, err);
-      console.log(data);
     });
 };
 
 const deleteItems = (req, res) => {
+  console.log(1234);
   const { itemId } = req.params;
-
-  ClothingItems.findByIdAndDelete(itemId)
+  console.log(itemId, req.user._id);
+  ClothingItems.findById(itemId)
     .orFail()
-    .then(() => res.status(200).send({ message: "Item successfully deleted" }))
+    .then((item) => {
+      console.log(item.owner, req.user._id);
+      if (!item.owner.equals(req.user._id)) {
+        return res
+          .status(403)
+          .send({ message: "Request permission is forbidden " });
+      }
+      return item
+        .deleteOne()
+        .then(() =>
+          res.status(200).send({ message: "Item deleted successfully" }),
+        );
+    })
     .catch((err) => {
       handleError(req, res, err);
     });

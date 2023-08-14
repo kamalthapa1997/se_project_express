@@ -1,5 +1,5 @@
 const ClothingItems = require("../models/clothingItems");
-const handleError = require("../utils/config");
+const { handleError } = require("../utils/config");
 
 const likeItem = (req, res) => {
   const { itemId } = req.params;

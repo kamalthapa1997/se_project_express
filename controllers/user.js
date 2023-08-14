@@ -2,8 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
 const { handleError, JWT_SECRET } = require("../utils/config");
-const { default: isEmail } = require("validator/lib/isEmail");
-const user = require("../models/user");
+const { ERROR_401 } = require("../utils/errors");
 
 const getUsers = (req, res) => {
   UserProfile.find({})
@@ -16,7 +15,10 @@ const getUsers = (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
-  const { userId } = req.params;
+  const userId = req.user._id;
+  console.log("ID", req.user.id);
+  console.log(3);
+  console.log(userId);
   UserProfile.findById(userId)
     .orFail()
     .then((userData) => {
@@ -27,14 +29,11 @@ const getCurrentUser = (req, res) => {
     });
 };
 
-////CREATE-USER
-
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
   console.log(req.body);
 
   UserProfile.findOne({ email })
-    .select("+password")
 
     .then((user) => {
       if (!email) {
@@ -55,17 +54,10 @@ const createUser = (req, res) => {
     )
     .then((user) => {
       res
-        .status(201)
+        .status(200)
         .send({ name: user.name, avatar: user.avatar, email: user.email });
     })
     .catch((err) => {
-      console.log("Create USER kooooo ERROR", err.name);
-      // if (err.message === "Error") {
-      //   return res.status(409).send({ message: err.message });
-      // }
-      if (err.message === "Validation Error") {
-        return res.status(400).send({ message: err.message });
-      }
       handleError(req, res, err);
     });
 };
@@ -84,11 +76,8 @@ const login = (req, res) => {
         }),
       });
     })
-    .catch((err) => {
-      console.log(`login ko err:: ${err.name} `);
-      console.log(user._id);
-
-      handleError(req, res, err);
+    .catch(() => {
+      res.status(ERROR_401).send({ message: "Invalid Credentials" });
     });
 };
 
