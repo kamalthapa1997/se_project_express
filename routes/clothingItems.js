@@ -11,12 +11,11 @@ const {
 const { likeItem, dislikeItem } = require("../controllers/likes");
 
 console.log(1);
-console.log(authorize, createItem);
-// router.post("/", authorize, createItem);
-router.post("/", createItem);
+
+router.post("/", authorize, createItem);
 
 // READ
-router.get("/", getItems); // 2nd argument must be function
+router.get("/", getItems);
 
 // Update
 

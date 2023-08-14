@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
 const { handleError, JWT_SECRET } = require("../utils/config");
 const { default: isEmail } = require("validator/lib/isEmail");
+const user = require("../models/user");
 
 const getUsers = (req, res) => {
   UserProfile.find({})
@@ -30,14 +31,13 @@ const getCurrentUser = (req, res) => {
 
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
-  // console.log(email);
-  // console.log(req.body);
-  // console.log(!!email);
+  console.log(req.body);
 
   UserProfile.findOne({ email })
+    .select("+password")
 
     .then((user) => {
-      if (email == false) {
+      if (!email) {
         throw new Error("Validation Error");
       }
       if (user) {
@@ -59,8 +59,11 @@ const createUser = (req, res) => {
         .send({ name: user.name, avatar: user.avatar, email: user.email });
     })
     .catch((err) => {
-      console.log("Create USER ERROR", err.name);
-      if (err.message === "Email already exist") {
+      console.log("Create USER kooooo ERROR", err.name);
+      // if (err.message === "Error") {
+      //   return res.status(409).send({ message: err.message });
+      // }
+      if (err.message === "Validation Error") {
         return res.status(400).send({ message: err.message });
       }
       handleError(req, res, err);
@@ -75,13 +78,16 @@ const login = (req, res) => {
 
   UserProfile.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user.id }, JWT_SECRET, {
-        expiresIn: "7d",
+      res.status(200).send({
+        token: jwt.sign({ _id: user._id }, JWT_SECRET, {
+          expiresIn: "7d",
+        }),
       });
-      res.send({ token });
     })
     .catch((err) => {
       console.log(`login ko err:: ${err.name} `);
+      console.log(user._id);
+
       handleError(req, res, err);
     });
 };

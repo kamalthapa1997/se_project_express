@@ -13,12 +13,14 @@ const createItem = (req, res) => {
 };
 
 const getItems = (req, res) => {
+  console.log("Getting items");
   ClothingItems.find({})
     .then((items) => {
       res.status(200).send({ data: items });
     })
     .catch((err) => {
       handleError(req, res, err);
+      console.log(data);
     });
 };
 
@@ -36,6 +38,5 @@ const deleteItems = (req, res) => {
 module.exports = {
   createItem,
   getItems,
-
   deleteItems,
 };
