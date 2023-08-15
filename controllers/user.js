@@ -31,6 +31,7 @@ const getCurrentUser = (req, res) => {
 
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
+  console.log(212);
   console.log(req.body);
 
   UserProfile.findOne({ email })
@@ -82,10 +83,15 @@ const login = (req, res) => {
 };
 
 const updateProfile = (req, res) => {
-  const { userId } = req.params;
-  const { avatar } = req.body;
+  const opts = { new: true, runValidators: true };
 
-  UserProfile.findByIdAndUpdate(userId, { $set: { avatar } })
+  UserProfile.findByIdAndUpdate(
+    {
+      _id: req.user._id,
+    },
+    { name: req.body.name, avatar: req.body.avatar },
+    opts,
+  )
     .orFail()
     .then((userData) => {
       res.status(200).send({ data: userData });

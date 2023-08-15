@@ -31,7 +31,6 @@ const userProfile = new mongoose.Schema({
     type: String,
     required: true,
     select: false,
-    minLength: 2,
   },
 });
 

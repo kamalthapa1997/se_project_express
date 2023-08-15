@@ -1,14 +1,13 @@
 const router = require("express").Router();
-const authorize = require("../middlewares/auth");
 const { updateProfile, getCurrentUser } = require("../controllers/user");
 
 // GET USER
-router.get("/me", authorize, getCurrentUser);
+router.get("/me", getCurrentUser);
 
 // READ
 
 // UPDATE
-router.patch("/me", authorize, updateProfile);
+router.patch("/me", updateProfile);
 
 // DELETE
 

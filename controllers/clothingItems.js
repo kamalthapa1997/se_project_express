@@ -1,5 +1,6 @@
 const ClothingItems = require("../models/clothingItems");
 const { handleError } = require("../utils/config");
+const { ERROR_403 } = require("../utils/errors");
 
 const createItem = (req, res) => {
   const { name, weather, imageUrl } = req.body;
@@ -33,7 +34,7 @@ const deleteItems = (req, res) => {
       console.log(item.owner, req.user._id);
       if (!item.owner.equals(req.user._id)) {
         return res
-          .status(403)
+          .status(ERROR_403)
           .send({ message: "Request permission is forbidden " });
       }
       return item
