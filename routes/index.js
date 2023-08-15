@@ -9,7 +9,7 @@ router.post("/signup", createUser);
 
 router.post("/signin", login);
 
-router.use("/items", authorize, clothingItems);
+router.use("/items", clothingItems);
 router.use("/users", authorize, userRoutes);
 
 router.use((req, res) => {
