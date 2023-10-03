@@ -1,10 +1,15 @@
+require("dotenv").config();
 const { ERROR_400, ERROR_404, ERROR_500, ERROR_409 } = require("./errors");
 
-const JWT_SECRET =
-  "61c28a838916286e63a31ff258f0f128e121ccb66d713285f2fabcc311b95d64";
+require("dotenv").config();
+const JWT_SECRET = process.env.JWT_SECRET;
+console.log("All environment variables:", process.env);
+console.log("JWT secret:", JWT_SECRET);
+
+// const JWT_SECRET =
+//   "61c28a838916286e63a31ff258f0f128e121ccb66d713285f2fabcc311b95d64";
 
 const handleError = (req, res, error) => {
-  console.error("Handle ko error ", error.message);
   if (
     error.name === "ValidationError" ||
     error.message === "Validation Error"
@@ -22,4 +27,5 @@ const handleError = (req, res, error) => {
     });
   }
 };
+
 module.exports = { handleError, JWT_SECRET };
