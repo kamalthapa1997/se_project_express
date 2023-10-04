@@ -2,7 +2,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
 const { handleError, JWT_SECRET } = require("../utils/config");
-console.log("jwt from user", JWT_SECRET);
 const {
   ERROR_401,
   NotFoundError,

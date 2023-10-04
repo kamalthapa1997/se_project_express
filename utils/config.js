@@ -1,7 +1,7 @@
 require("dotenv").config();
 const { ERROR_400, ERROR_404, ERROR_500, ERROR_409 } = require("./errors");
+//// JWT_SECRET
 
-require("dotenv").config();
 const JWT_SECRET = process.env.JWT_SECRET;
 console.log("All environment variables:", process.env);
 console.log("JWT secret:", JWT_SECRET);

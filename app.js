@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
-const { errors } = require("celebrate");
+// const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const errorHandler = require("./middlewares/error-handler");
 
@@ -20,7 +20,7 @@ app.use(requestLogger);
 app.use(routes);
 
 app.use(errorLogger);
-app.use(errors());
+// app.use(errors());
 
 ///our centralized handler
 app.use(errorHandler);
