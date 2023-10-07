@@ -2,6 +2,7 @@
 
 const winston = require("winston");
 const expressWinston = require("express-winston");
+console.log("kamal", winston);
 
 // create a request logger
 const requestLogger = expressWinston.logger({

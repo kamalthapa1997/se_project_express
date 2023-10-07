@@ -52,10 +52,10 @@ const createUser = (req, res, next) => {
     .then((user) => {
       if (!email) {
         // throw new Error("Validation Error");
-        throw new BadRequestError("Validation Error");
+        throw new Error("Validation Error");
       }
       if (user) {
-        throw new ConflictError("Email already exist");
+        throw new Error("Email is already exist");
       }
       return bcrypt.hash(password, 10);
     })
@@ -68,9 +68,6 @@ const createUser = (req, res, next) => {
       }),
     )
     .then((user) => {
-      if (!user) {
-        throw new BadRequestError("Validation Error");
-      }
       res
         .status(200)
         .send({ name: user.name, avatar: user.avatar, email: user.email });
@@ -87,26 +84,30 @@ const createUser = (req, res, next) => {
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
-  console.log(req.body);
+  console.log(1);
+  console.log("login email body", req.body);
 
   UserProfile.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError("Invalid email or password");
+        throw new Error("Invalid email or password");
       }
+
+      console.log(user._id, JWT_SECRET);
       res.status(200).send({
         token: jwt.sign({ _id: user._id }, JWT_SECRET, {
           expiresIn: "7d",
         }),
       });
     })
-    .catch((e) => {
-      // const err = new UnauthorizedError("Incorrect email or password");
-      next(e);
+    // .catch((e) => {
+
+    //   const err = new UnauthorizedError("Incorrect email or password");
+    //   next(e);
+    // });
+    .catch(() => {
+      res.status(ERROR_401).send({ message: "Invalid Credentials" });
     });
-  // .catch(() => {
-  //   res.status(ERROR_401).send({ message: "Invalid Credentials" });
-  // });
 };
 
 const updateProfile = (req, res, next) => {

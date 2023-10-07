@@ -4,6 +4,7 @@ const { handleError } = require("../utils/config");
 const likeItem = (req, res) => {
   const { itemId } = req.params;
 
+  console.log("like id", itemId);
   ClothingItems.findByIdAndUpdate(
     itemId,
     {
@@ -22,6 +23,7 @@ const likeItem = (req, res) => {
 
 const dislikeItem = (req, res) => {
   const { itemId } = req.params;
+  console.log("dislike id", itemId);
 
   ClothingItems.findByIdAndUpdate(
     itemId,

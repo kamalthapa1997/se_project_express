@@ -9,7 +9,7 @@ const validateURL = (value, helpers) => {
   return helpers.error("string.uri");
 };
 
-module.exports.validateClothingItem = celebrate({
+const validateClothingItem = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30).messages({
       "string.min": 'The minimum length of the "name" field is 2',
@@ -20,10 +20,11 @@ module.exports.validateClothingItem = celebrate({
       "string.empty": 'The "imageUrl" field must be filled in',
       "string.uri": 'the "imageUrl" field must be a valid url',
     }),
+    weather: Joi.string().valid("hot", "warm", "cold").required(),
   }),
 });
 
-module.exports.validateuserInfo = celebrate({
+const validateuserInfo = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30).messages({
       "string.min": 'The minimum length of the "name" field is 2',
@@ -39,20 +40,20 @@ module.exports.validateuserInfo = celebrate({
   }),
 });
 
-module.exports.validateloginAuth = celebrate({
+const validateloginAuth = celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   }),
 });
 
-module.exports.validateUserId = celebrate({
+const validateUserId = celebrate({
   params: Joi.object().keys({
-    userId: Joi.string().hex().length(24),
+    itemId: Joi.string().length(24).hex(),
   }),
 });
 
-module.exports.validateUpdateCurrentUser = celebrate({
+const validateUpdateCurrentUser = celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
     avatar: Joi.string().required().custom(validateURL).message({
@@ -61,4 +62,11 @@ module.exports.validateUpdateCurrentUser = celebrate({
   }),
 });
 
+module.exports = {
+  validateClothingItem,
+  validateuserInfo,
+  validateloginAuth,
+  validateUserId,
+  validateUpdateCurrentUser,
+};
 //this

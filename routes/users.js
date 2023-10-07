@@ -6,7 +6,7 @@ const {
 } = require("../middlewares/validation");
 
 // GET USER
-router.get("/me", getCurrentUser);
+router.get("/me", validateUserId, getCurrentUser);
 
 // READ
 

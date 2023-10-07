@@ -2,12 +2,7 @@ require("dotenv").config();
 const { ERROR_400, ERROR_404, ERROR_500, ERROR_409 } = require("./errors");
 //// JWT_SECRET
 
-const JWT_SECRET = process.env.JWT_SECRET;
-console.log("All environment variables:", process.env);
-console.log("JWT secret:", JWT_SECRET);
-
-// const JWT_SECRET =
-//   "61c28a838916286e63a31ff258f0f128e121ccb66d713285f2fabcc311b95d64";
+const { JWT_SECRET = "some long strinq" } = process.env;
 
 const handleError = (req, res, error) => {
   if (
@@ -15,7 +10,7 @@ const handleError = (req, res, error) => {
     error.message === "Validation Error"
   ) {
     res.status(ERROR_400).send({ message: "Passed invalid data" });
-  } else if (error.message === "Email already exist") {
+  } else if (error === "Email already exist") {
     res.status(ERROR_409).send({ message: error.message });
   } else if (error.name === "CastError") {
     res.status(ERROR_400).send({ message: "Passed invalid ID" });
