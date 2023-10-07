@@ -16,10 +16,10 @@ router.post("/signin", validateloginAuth, login);
 router.use("/items", clothingItems);
 router.use("/users", authorize, userRoutes);
 
-// router.use((req, res) => {
-//   res
-//     .status(ERROR_404)
-//     .send({ message: "The requested resource not found sorry" });
-// });
+router.use((req, res) => {
+  res
+    .status(ERROR_404)
+    .send({ message: "The requested resource not found sorry" });
+});
 
 module.exports = router;

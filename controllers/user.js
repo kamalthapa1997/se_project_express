@@ -89,6 +89,7 @@ const login = (req, res, next) => {
 
   UserProfile.findUserByCredentials(email, password)
     .then((user) => {
+      console.log(user);
       if (!user) {
         throw new Error("Invalid email or password");
       }
@@ -106,7 +107,9 @@ const login = (req, res, next) => {
     //   next(e);
     // });
     .catch(() => {
-      res.status(ERROR_401).send({ message: "Invalid Credentials" });
+      res
+        .status(ERROR_401)
+        .send({ message: " you have entered invalid Credentials" });
     });
 };
 
