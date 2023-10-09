@@ -8,38 +8,29 @@ const ERROR_403 = 403;
 // errors/not-found-err.js
 // STILL WORKING WITH CENTRALIZED ERROR HANDLING
 
-// class NotFoundError extends Error {
-//   constructor(message) {
-//     super(message);
-//     this.statusCode = 404;
-//   }
-// }
-// class BadRequestError extends Error {
-//   constructor(message) {
-//     super(message);
-//     this.statusCode = 400;
-//   }
-// }
-// class UnauthorizedError extends Error {
-//   constructor(message) {
-//     super(message);
-//     this.statusCode = 401;
-//   }
-// }
-// class ForbiddenError extends Error {
-//   constructor(message) {
-//     super(message);
-//     this.statusCode = 403;
-//   }
-// }
-// class ConflictError extends Error {
-//   constructor(message) {
-//     super(message);
-//     this.statusCode = 409;
-//   }
-// }
+class UnauthorizedError extends Error {
+  constructor(message = "Unauthorided Error") {
+    super(message);
+    this.statusCode = 401;
+  }
+}
+class ForbiddenError extends Error {
+  constructor(message = "Forbidden Error") {
+    super(message);
+    this.statusCode = 403;
+  }
+}
+class ConflictError extends Error {
+  constructor(message = "Conflict Error") {
+    super(message);
+    this.statusCode = 409;
+  }
+}
 
 module.exports = {
+  UnauthorizedError,
+  ForbiddenError,
+  ConflictError,
   ERROR_400,
   ERROR_404,
   ERROR_500,

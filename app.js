@@ -4,7 +4,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
-const errorHandler = require("./middlewares/error-handler");
+const { errorHandler } = require("./middlewares/error-handler");
 
 const { PORT = 3001 } = process.env;
 
@@ -24,16 +24,6 @@ app.use(errors());
 
 // our centralized handler
 app.use(errorHandler);
-
-app.use((err, req, res) => {
-  // if an error has no status, display 500
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({
-    // check the status and display a message based on it
-    message: statusCode === 500 ? "An error occurred on the server" : message,
-  });
-});
 
 app.listen(PORT, () => {
   console.log(`App is listening at port ${PORT}`);

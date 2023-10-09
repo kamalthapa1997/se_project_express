@@ -2,7 +2,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
 const { handleError, JWT_SECRET } = require("../utils/config");
-const { ERROR_401 } = require("../utils/errors");
+const { ERROR_401, ConflictError } = require("../utils/errors");
+const { BadRequestError } = require("../errors/BadRequestError");
 
 const getUsers = (req, res) => {
   UserProfile.find({})
@@ -37,18 +38,20 @@ const getCurrentUser = (req, res) => {
 
 // login
 
-const createUser = (req, res) => {
+const createUser = (req, res, next) => {
   const { name, avatar, email, password } = req.body;
 
   UserProfile.findOne({ email })
 
     .then((user) => {
       if (!email) {
-        throw new Error("Validation Error");
+        // throw new Error("Validation Error");
+        throw new BadRequestError("Validation Error");
       }
 
       if (user) {
-        throw new Error("Email already exist");
+        // throw new Error("Email already exist");
+        throw new ConflictError("Email already exist");
       }
 
       return bcrypt.hash(password, 10);
@@ -75,7 +78,13 @@ const createUser = (req, res) => {
     })
 
     .catch((err) => {
-      handleError(req, res, err);
+      if (err.name === "ValidationError") {
+        next(new BadRequestError("Invalid Data Entered"));
+      } else {
+        next(err);
+      }
+
+      // handleError(req, res, err);
     });
 };
 const login = (req, res) => {
