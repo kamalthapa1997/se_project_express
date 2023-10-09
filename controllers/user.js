@@ -2,13 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
 const { handleError, JWT_SECRET } = require("../utils/config");
-const {
-  ERROR_401,
-  NotFoundError,
-  UnauthorizedError,
-  BadRequestError,
-  ConflictError,
-} = require("../utils/errors");
+const { ERROR_401 } = require("../utils/errors");
 
 const getUsers = (req, res) => {
   UserProfile.find({})
@@ -100,7 +94,7 @@ const login = (req, res) => {
       });
     })
 
-    .catch((err) => {
+    .catch(() => {
       res
         .status(ERROR_401)
         .send({ message: " you have entered invalid Credentials" });

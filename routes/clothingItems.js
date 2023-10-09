@@ -9,10 +9,7 @@ const {
   deleteItems,
 } = require("../controllers/clothingItems");
 const { likeItem, dislikeItem } = require("../controllers/likes");
-const {
-  validateClothingItem,
-  validateUserId,
-} = require("../middlewares/validation");
+const { validateUserId } = require("../middlewares/validation");
 
 router.post("/", authorize, createItem);
 

@@ -22,10 +22,10 @@ app.use(routes);
 app.use(errorLogger);
 app.use(errors());
 
-///our centralized handler
+// our centralized handler
 app.use(errorHandler);
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   // if an error has no status, display 500
   const { statusCode = 500, message } = err;
 

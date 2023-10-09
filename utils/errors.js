@@ -6,7 +6,7 @@ const ERROR_409 = 409;
 const ERROR_403 = 403;
 
 // errors/not-found-err.js
-//STILL WORKING WITH CENTRALIZED ERROR HANDLING
+// STILL WORKING WITH CENTRALIZED ERROR HANDLING
 
 // class NotFoundError extends Error {
 //   constructor(message) {

@@ -1,6 +1,6 @@
-module.exports = (err, req, res, next) => {
-  const statusCode = err.statusCode;
-  const message = err.message;
+module.exports = (err, res) => {
+  const { statusCode, message } = err;
+
   console.log(message);
 
   console.log("error satuscode", statusCode);
