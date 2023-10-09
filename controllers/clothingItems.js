@@ -1,38 +1,38 @@
-const ClothingItems = require("../models/clothingItems");
-const { handleError } = require("../utils/config");
-const { ERROR_403 } = require("../utils/errors");
+const { BadRequestError } = require("../errors/BadRequestError");
+const { ForbiddenError } = require("../errors/ForbiddenError");
+const { NotFoundError } = require("../errors/NotFoundError");
 
-const createItem = (req, res) => {
+const ClothingItems = require("../models/clothingItems");
+
+const createItem = (req, res, next) => {
   const { name, weather, imageUrl } = req.body;
   ClothingItems.create({ name, weather, imageUrl, owner: req.user._id })
     .then((item) => {
       res.send({ data: item });
     })
-    .catch((err) => {
-      handleError(req, res, err);
+    .catch(() => {
+      next(new BadRequestError("You have Passed invalid data"));
     });
 };
 
-const getItems = (req, res) => {
+const getItems = (req, res, next) => {
   ClothingItems.find({})
     .then((items) => {
       res.status(200).send({ data: items });
     })
-    .catch((err) => {
-      handleError(req, res, err);
+    .catch(() => {
+      next(new NotFoundError("Error on getting items"));
     });
 };
 
-const deleteItems = (req, res) => {
+const deleteItems = (req, res, next) => {
   const { itemId } = req.params;
 
   ClothingItems.findById(itemId)
-    .orFail()
+    .orFail(() => new NotFoundError("Item is not found."))
     .then((item) => {
       if (!item.owner.equals(req.user._id)) {
-        return res
-          .status(ERROR_403)
-          .send({ message: "Request permission is forbidden " });
+        throw new ForbiddenError("Requedted permission has been denied.");
       }
       return item
         .deleteOne()
@@ -41,7 +41,7 @@ const deleteItems = (req, res) => {
         );
     })
     .catch((err) => {
-      handleError(req, res, err);
+      next(err);
     });
 };
 

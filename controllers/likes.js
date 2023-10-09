@@ -1,7 +1,7 @@
+const { NotFoundError } = require("../errors/NotFoundError");
 const ClothingItems = require("../models/clothingItems");
-const { handleError } = require("../utils/config");
 
-const likeItem = (req, res) => {
+const likeItem = (req, res, next) => {
   const { itemId } = req.params;
 
   ClothingItems.findByIdAndUpdate(
@@ -15,12 +15,12 @@ const likeItem = (req, res) => {
     .then((item) => {
       res.status(200).send({ data: item });
     })
-    .catch((err) => {
-      handleError(req, res, err);
+    .catch(() => {
+      next(new NotFoundError("Data was not found"));
     });
 };
 
-const dislikeItem = (req, res) => {
+const dislikeItem = (req, res, next) => {
   const { itemId } = req.params;
 
   ClothingItems.findByIdAndUpdate(
@@ -32,8 +32,8 @@ const dislikeItem = (req, res) => {
     .then((item) => {
       res.status(200).send({ data: item });
     })
-    .catch((err) => {
-      handleError(req, res, err);
+    .catch(() => {
+      next(new NotFoundError("Data was not found"));
     });
 };
 

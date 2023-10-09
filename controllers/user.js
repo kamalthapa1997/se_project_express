@@ -1,38 +1,40 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
-const { handleError, JWT_SECRET } = require("../utils/config");
-const { ERROR_401, ConflictError } = require("../utils/errors");
+const { JWT_SECRET } = require("../utils/config");
 const { BadRequestError } = require("../errors/BadRequestError");
+const { UnauthorizedError } = require("../errors/UnauthorizationError");
+const { NotFoundError } = require("../errors/NotFoundError");
+const { ConflictError } = require("../errors/ConflictError");
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   UserProfile.find({})
     .then((userData) => {
       if (!userData) {
-        throw new Error("Error has occured.");
+        throw new NotFoundError("Error has occured.");
       }
       res.status(200).send({ data: userData });
     })
 
     .catch((err) => {
-      handleError(req, res, err);
+      next(err);
     });
 };
 
-const getCurrentUser = (req, res) => {
+const getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
 
   UserProfile.findById(userId)
     .orFail()
     .then((userData) => {
       if (!userData) {
-        throw new Error("Error has occured.");
+        throw new NotFoundError("Error has occured.");
       }
       res.status(200).send({ data: userData });
     })
 
     .catch((err) => {
-      handleError(req, res, err);
+      next(err);
     });
 };
 
@@ -83,17 +85,15 @@ const createUser = (req, res, next) => {
       } else {
         next(err);
       }
-
-      // handleError(req, res, err);
     });
 };
-const login = (req, res) => {
+const login = (req, res, next) => {
   const { email, password } = req.body;
 
   UserProfile.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new Error("Invalid email or password");
+        throw new BadRequestError("Invalid email or password");
       }
 
       res.status(200).send({
@@ -103,14 +103,16 @@ const login = (req, res) => {
       });
     })
 
-    .catch(() => {
-      res
-        .status(ERROR_401)
-        .send({ message: " you have entered invalid Credentials" });
+    .catch((err) => {
+      if (err === TypeError) {
+        next(new UnauthorizedError(" you have entered invalid Credentials"));
+      } else {
+        next(err);
+      }
     });
 };
 
-const updateProfile = (req, res) => {
+const updateProfile = (req, res, next) => {
   const opts = { new: true, runValidators: true };
 
   UserProfile.findByIdAndUpdate(
@@ -124,8 +126,8 @@ const updateProfile = (req, res) => {
     .then((userData) => {
       res.status(200).send({ data: userData });
     })
-    .catch((err) => {
-      handleError(req, res, err);
+    .catch(() => {
+      next(new BadRequestError("Invalid Name or Avatar"));
     });
 };
 
