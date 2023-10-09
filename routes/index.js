@@ -9,7 +9,7 @@ const {
   validateloginAuth,
 } = require("../middlewares/validation");
 
-router.post("/signup", validateuserInfo, createUser);
+router.post("/signup", createUser);
 
 router.post("/signin", validateloginAuth, login);
 

@@ -5,6 +5,7 @@ const { ERROR_400, ERROR_404, ERROR_500, ERROR_409 } = require("./errors");
 const { JWT_SECRET = "some long strinq" } = process.env;
 
 const handleError = (req, res, error) => {
+  console.log(error.message);
   if (
     error.name === "ValidationError" ||
     error.message === "Validation Error" ||
