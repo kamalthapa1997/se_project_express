@@ -14,7 +14,6 @@ const createItem = (req, res) => {
 };
 
 const getItems = (req, res) => {
-  console.log("Getting items");
   ClothingItems.find({})
     .then((items) => {
       res.status(200).send({ data: items });
@@ -25,13 +24,11 @@ const getItems = (req, res) => {
 };
 
 const deleteItems = (req, res) => {
-  console.log(1234);
   const { itemId } = req.params;
-  console.log(itemId, req.user._id);
+
   ClothingItems.findById(itemId)
     .orFail()
     .then((item) => {
-      console.log(item.owner, req.user._id);
       if (!item.owner.equals(req.user._id)) {
         return res
           .status(ERROR_403)

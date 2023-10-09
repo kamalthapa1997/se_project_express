@@ -6,12 +6,12 @@ const {
 } = require("../middlewares/validation");
 
 // GET USER
-router.get("/me", validateUserId, getCurrentUser);
+router.get("/me", validateUpdateCurrentUser, getCurrentUser);
 
 // READ
 
 // UPDATE
-router.patch("/me", validateUpdateCurrentUser, updateProfile);
+router.patch("/me", validateUserId, updateProfile);
 
 // DELETE
 

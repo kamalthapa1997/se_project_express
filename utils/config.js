@@ -7,10 +7,11 @@ const { JWT_SECRET = "some long strinq" } = process.env;
 const handleError = (req, res, error) => {
   if (
     error.name === "ValidationError" ||
-    error.message === "Validation Error"
+    error.message === "Validation Error" ||
+    error.message === " user validation failed"
   ) {
-    res.status(ERROR_400).send({ message: "Passed invalid data" });
-  } else if (error === "Email already exist") {
+    res.status(ERROR_400).send({ message: " You have Passed invalid data" });
+  } else if (error.message === "Email already exist") {
     res.status(ERROR_409).send({ message: error.message });
   } else if (error.name === "CastError") {
     res.status(ERROR_400).send({ message: "Passed invalid ID" });

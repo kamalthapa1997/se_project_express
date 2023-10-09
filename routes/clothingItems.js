@@ -14,8 +14,6 @@ const {
   validateUserId,
 } = require("../middlewares/validation");
 
-console.log(1);
-
 router.post("/", authorize, validateClothingItem, createItem);
 
 // READ
