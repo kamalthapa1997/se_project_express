@@ -22,7 +22,6 @@ const likeItem = (req, res) => {
 
 const dislikeItem = (req, res) => {
   const { itemId } = req.params;
-  console.log("dislike id", itemId);
 
   ClothingItems.findByIdAndUpdate(
     itemId,

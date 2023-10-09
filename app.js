@@ -25,7 +25,7 @@ app.use(errors());
 ///our centralized handler
 app.use(errorHandler);
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   // if an error has no status, display 500
   const { statusCode = 500, message } = err;
 

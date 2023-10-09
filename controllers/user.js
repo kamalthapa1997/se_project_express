@@ -44,10 +44,7 @@ const getCurrentUser = (req, res) => {
 // login
 
 const createUser = (req, res) => {
-  console.log(1);
   const { name, avatar, email, password } = req.body;
-
-  console.log(name, avatar, email, password);
 
   UserProfile.findOne({ email })
 
@@ -84,7 +81,6 @@ const createUser = (req, res) => {
     })
 
     .catch((err) => {
-      console.log("error with creating user: ", err);
       handleError(req, res, err);
     });
 };
@@ -104,7 +100,7 @@ const login = (req, res) => {
       });
     })
 
-    .catch(() => {
+    .catch((err) => {
       res
         .status(ERROR_401)
         .send({ message: " you have entered invalid Credentials" });

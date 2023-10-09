@@ -1,5 +1,11 @@
 require("dotenv").config();
-const { ERROR_400, ERROR_404, ERROR_500, ERROR_409 } = require("./errors");
+const {
+  ERROR_400,
+  ERROR_404,
+  ERROR_500,
+  ERROR_409,
+  ERROR_401,
+} = require("./errors");
 //// JWT_SECRET
 
 const { JWT_SECRET = "some long strinq" } = process.env;
@@ -9,7 +15,7 @@ const handleError = (req, res, error) => {
   if (
     error.name === "ValidationError" ||
     error.message === "Validation Error" ||
-    error.message === " user validation failed"
+    error.message === " ReferenceError"
   ) {
     res.status(ERROR_400).send({ message: " You have Passed invalid data" });
   } else if (error.message === "Email already exist") {

@@ -35,15 +35,21 @@ const validateuserInfo = celebrate({
       "string.empty": 'The "imageUrl" field must be filled in',
       "string.uri": 'the "imageUrl" field must be a valid url',
     }),
-    email: Joi.string().required().email(),
+    about: Joi.string(),
+    email: Joi.string().required(),
     password: Joi.string().required(),
   }),
 });
 
 const validateloginAuth = celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required().email(),
-    password: Joi.string().required(),
+    email: Joi.string().messages({
+      "string.empty": 'The "email" field must be filled in',
+      "string.email": 'The "email" field must be a valid email',
+    }),
+    password: Joi.string().messages({
+      "string.empty": 'The "password" field must be filled in',
+    }),
   }),
 });
 

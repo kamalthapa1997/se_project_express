@@ -9,7 +9,7 @@ const {
   validateloginAuth,
 } = require("../middlewares/validation");
 
-router.post("/signup", createUser);
+router.post("/signup", validateuserInfo, createUser);
 
 router.post("/signin", validateloginAuth, login);
 
@@ -17,9 +17,7 @@ router.use("/items", clothingItems);
 router.use("/users", authorize, userRoutes);
 
 router.use((req, res) => {
-  res
-    .status(ERROR_404)
-    .send({ message: "The requested resource not found sorry" });
+  res.status(ERROR_404).send({ message: "The requested resource not found." });
 });
 
 module.exports = router;

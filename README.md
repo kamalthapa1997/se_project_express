@@ -2,6 +2,10 @@
 
 The back-end project is focused on creating a server for the WTWR application. The eventual goal is to create a server with an API and user authorization.
 
+## Frontend
+
+www.whattowear.chickenkiller.com
+
 ## Technologies used:
 
 Express: Express.js or simply Express is a back end web application framawork for building RESTful APIs with Node.js
