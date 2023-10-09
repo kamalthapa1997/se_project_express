@@ -37,7 +37,7 @@ const validateuserInfo = celebrate({
       "string.uri": 'the "imageUrl" field must be a valid url',
     }),
     about: Joi.string(),
-    email: Joi.string().required(),
+    email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
 });
