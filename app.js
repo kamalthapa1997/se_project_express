@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const { errors } = require("celebrate");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { errorHandler } = require("./middlewares/error-handler");
+const { limiter } = require("./middlewares/rateLimit");
 
 const { PORT = 3001 } = process.env;
 
@@ -23,6 +24,7 @@ app.use(errorLogger);
 app.use(errors());
 
 // our centralized handler
+app.use(limiter);
 app.use(errorHandler);
 
 app.listen(PORT, () => {

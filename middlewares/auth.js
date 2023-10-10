@@ -1,9 +1,11 @@
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET } = require("../utils/config");
 const { ERROR_401 } = require("../utils/errors");
+const { UnauthorizedError } = require("../errors/UnauthorizationError");
 
-const handleAuthError = (res) => {
-  res.status(ERROR_401).send({ message: "Authorization Error" });
+const handleAuthError = (req, res, next) => {
+  next(new UnauthorizedError("Authorization Error"));
+  // res.status(ERROR_401).send({ message: "Authorization Error" });
 };
 
 const extractBearerToken = (header) => header.replace("Bearer ", "");

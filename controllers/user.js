@@ -25,7 +25,7 @@ const getCurrentUser = (req, res, next) => {
   const userId = req.user._id;
 
   UserProfile.findById(userId)
-    .orFail()
+    .orFail(() => new NotFoundError("Data was not found."))
     .then((userData) => {
       if (!userData) {
         throw new NotFoundError("Error has occured.");
@@ -80,6 +80,7 @@ const createUser = (req, res, next) => {
     })
 
     .catch((err) => {
+      console.log(err.name);
       if (err.name === "ValidationError") {
         next(new BadRequestError("Invalid Data Entered"));
       } else {
@@ -91,10 +92,11 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   UserProfile.findUserByCredentials(email, password)
+    // .orFail(() => new NotFoundError("Data was not found."))
     .then((user) => {
-      if (!user) {
-        throw new BadRequestError("Invalid email or password");
-      }
+      // if (!user) {
+      //   throw new BadRequestError("Invalid email or password");
+      // }
 
       res.status(200).send({
         token: jwt.sign({ _id: user._id }, JWT_SECRET, {
@@ -104,11 +106,12 @@ const login = (req, res, next) => {
     })
 
     .catch((err) => {
-      if (err === TypeError) {
-        next(new UnauthorizedError(" you have entered invalid Credentials"));
-      } else {
-        next(err);
-      }
+      // if (err === TypeError) {
+      //   next(new UnauthorizedError(" you have entered invalid Credentials"));
+      // } else {
+      //   next(err);
+      // }
+      next(err);
     });
 };
 
@@ -122,12 +125,16 @@ const updateProfile = (req, res, next) => {
     { name: req.body.name, avatar: req.body.avatar },
     opts,
   )
-    .orFail()
+    .orFail(() => new NotFoundError("Data was not found."))
     .then((userData) => {
       res.status(200).send({ data: userData });
     })
-    .catch(() => {
-      next(new BadRequestError("Invalid Name or Avatar"));
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        next(new BadRequestError("Invalid Name or Avatar"));
+      } else {
+        next(err);
+      }
     });
 };
 

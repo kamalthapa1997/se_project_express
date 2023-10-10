@@ -10,8 +10,12 @@ const createItem = (req, res, next) => {
     .then((item) => {
       res.send({ data: item });
     })
-    .catch(() => {
-      next(new BadRequestError("You have Passed invalid data"));
+    .catch((err) => {
+      if (err.name === "ValidationError") {
+        next(new BadRequestError("You have Passed invalid data"));
+      } else {
+        next(errrr);
+      }
     });
 };
 
@@ -20,8 +24,9 @@ const getItems = (req, res, next) => {
     .then((items) => {
       res.status(200).send({ data: items });
     })
-    .catch(() => {
-      next(new NotFoundError("Error on getting items"));
+    .catch((err) => {
+      next(err);
+      // next(new NotFoundError("Error on getting items"));
     });
 };
 

@@ -9,9 +9,12 @@ const {
   deleteItems,
 } = require("../controllers/clothingItems");
 const { likeItem, dislikeItem } = require("../controllers/likes");
-const { validateUserId } = require("../middlewares/validation");
+const {
+  validateUserId,
+  validateClothingItem,
+} = require("../middlewares/validation");
 
-router.post("/", authorize, createItem);
+router.post("/", authorize, validateClothingItem, createItem);
 
 // READ
 router.get("/", getItems);
