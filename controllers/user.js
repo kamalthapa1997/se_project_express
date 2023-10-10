@@ -3,7 +3,6 @@ const jwt = require("jsonwebtoken");
 const UserProfile = require("../models/user");
 const { JWT_SECRET } = require("../utils/config");
 const { BadRequestError } = require("../errors/BadRequestError");
-const { UnauthorizedError } = require("../errors/UnauthorizationError");
 const { NotFoundError } = require("../errors/NotFoundError");
 const { ConflictError } = require("../errors/ConflictError");
 
@@ -47,12 +46,10 @@ const createUser = (req, res, next) => {
 
     .then((user) => {
       if (!email) {
-        // throw new Error("Validation Error");
         throw new BadRequestError("Validation Error");
       }
 
       if (user) {
-        // throw new Error("Email already exist");
         throw new ConflictError("Email already exist");
       }
 
@@ -92,12 +89,8 @@ const login = (req, res, next) => {
   const { email, password } = req.body;
 
   UserProfile.findUserByCredentials(email, password)
-    // .orFail(() => new NotFoundError("Data was not found."))
-    .then((user) => {
-      // if (!user) {
-      //   throw new BadRequestError("Invalid email or password");
-      // }
 
+    .then((user) => {
       res.status(200).send({
         token: jwt.sign({ _id: user._id }, JWT_SECRET, {
           expiresIn: "7d",
@@ -106,11 +99,6 @@ const login = (req, res, next) => {
     })
 
     .catch((err) => {
-      // if (err === TypeError) {
-      //   next(new UnauthorizedError(" you have entered invalid Credentials"));
-      // } else {
-      //   next(err);
-      // }
       next(err);
     });
 };

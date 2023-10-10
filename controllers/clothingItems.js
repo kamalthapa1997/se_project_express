@@ -14,7 +14,7 @@ const createItem = (req, res, next) => {
       if (err.name === "ValidationError") {
         next(new BadRequestError("You have Passed invalid data"));
       } else {
-        next(errrr);
+        next(err);
       }
     });
 };
