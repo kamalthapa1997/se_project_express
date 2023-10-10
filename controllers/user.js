@@ -5,6 +5,7 @@ const { JWT_SECRET } = require("../utils/config");
 const { BadRequestError } = require("../errors/BadRequestError");
 const { NotFoundError } = require("../errors/NotFoundError");
 const { ConflictError } = require("../errors/ConflictError");
+const { log } = require("winston");
 
 const getUsers = (req, res, next) => {
   UserProfile.find({})
@@ -29,10 +30,12 @@ const getCurrentUser = (req, res, next) => {
       if (!userData) {
         throw new NotFoundError("Error has occured.");
       }
+      console.log(userData);
       res.status(200).send({ data: userData });
     })
 
     .catch((err) => {
+      console.log("gerring user", err);
       next(err);
     });
 };
@@ -41,6 +44,8 @@ const getCurrentUser = (req, res, next) => {
 
 const createUser = (req, res, next) => {
   const { name, avatar, email, password } = req.body;
+  console.log(req.body, "LINE 47");
+  console.log(name, avatar, email, password);
 
   UserProfile.findOne({ email })
 

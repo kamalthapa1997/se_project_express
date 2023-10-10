@@ -36,7 +36,6 @@ const validateuserInfo = celebrate({
       "string.empty": 'The "imageUrl" field must be filled in',
       "string.uri": 'the "imageUrl" field must be a valid url',
     }),
-
     email: Joi.string().email().required(),
     password: Joi.string().required(),
   }),
@@ -60,19 +59,22 @@ const validateUserId = celebrate({
   }),
 });
 
-const validateUpdateCurrentUser = celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    avatar: Joi.string().required().custom(validateURL).message({
-      "string.uri": 'the "imageUrl" field must be a valid url',
-    }),
-  }),
-});
+// const validateUpdateCurrentUser = celebrate({
+//   body: Joi.object().keys({
+//     name: Joi.string().required().min(2).max(30),
+//     avatar: Joi.string().required().custom(validateURL).message({
+//       "string.uri": 'the "imageUrl" field must be a valid url',
+//     }),
+//     email: Joi.string().required().messages({
+//       "string.empty": 'The "email" field must be filled in',
+//       "string.email": 'The "email" field must be a valid email',
+//     }),
+//   }),
+// });
 
 module.exports = {
   validateClothingItem,
   validateuserInfo,
   validateloginAuth,
   validateUserId,
-  validateUpdateCurrentUser,
 };
