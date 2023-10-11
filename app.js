@@ -19,12 +19,12 @@ app.use(cors());
 app.use(helmet());
 app.use(requestLogger);
 app.use(routes);
-
+app.use(limiter);
 app.use(errorLogger);
 app.use(errors());
 
 // our centralized handler
-app.use(limiter);
+
 app.use(errorHandler);
 
 app.listen(PORT, () => {
