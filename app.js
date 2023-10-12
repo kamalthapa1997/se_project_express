@@ -18,8 +18,8 @@ app.use(express.json());
 app.use(cors());
 app.use(helmet());
 app.use(requestLogger);
-app.use(routes);
 app.use(limiter);
+app.use(routes);
 app.use(errorLogger);
 app.use(errors());
 

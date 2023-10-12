@@ -7,7 +7,8 @@ const {
   validateuserInfo,
   validateloginAuth,
 } = require("../middlewares/validation");
-const { ForbiddenError } = require("../errors/ForbiddenError");
+
+const { NotFoundError } = require("../errors/NotFoundError");
 
 router.post("/signup", validateuserInfo, createUser);
 
@@ -17,7 +18,7 @@ router.use("/items", clothingItems);
 router.use("/users", authorize, userRoutes);
 
 router.use((req, res, next) => {
-  next(new ForbiddenError({ message: "The request resource is not found." }));
+  next(new NotFoundError("The request resource is not found."));
 });
 
 module.exports = router;
